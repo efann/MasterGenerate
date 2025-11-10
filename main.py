@@ -124,7 +124,7 @@ if __name__ == '__main__':
         print('LibreOffice Python Interpreter must be used.')
         exit()
 
-    lcFolder = constants.FOLDER
+    lcFolder = constants.MASTER_FOLDER
 
     print(f"Folder: {lcFolder}")
 
