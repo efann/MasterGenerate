@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# PyCharm folder
+# Ignore server SSH settings
+.idea/ssh*.xml
+
+.idea/
+.idea/workspace.xml
