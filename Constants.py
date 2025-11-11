@@ -7,7 +7,9 @@ import os
 class Constants:
     # -------------------------------------------------------------------------------------------------
     def __init__(self):
-        self.LIBRE_OFFICE = 'C:\Program Files\LibreOffice\program\soffice.exe'
+        self.LIBRE_OFFICE_FOLDER_BASE = 'LibreOffice'
+        self.LIBRE_OFFICE = f"C:\\Program Files\\{self.LIBRE_OFFICE_FOLDER_BASE}\\program\\soffice.exe"
+        self.LIBRE_OFFICE_PORT = 2002
 
         self.TARGET_FOLDER = "Tales from My Neighbor's Desk"
 

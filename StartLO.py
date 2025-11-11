@@ -16,7 +16,7 @@ class StartLO:
 
     # -------------------------------------------------------------------------------------------------
 
-    def start_libreoffice_headless(self, port=2002):
+    def start_libreoffice_headless(self, port):
         """
         Starts LibreOffice in headless mode, listening for connections on a specified port.
         """
@@ -38,7 +38,7 @@ class StartLO:
         command = [
             libreoffice_path,
             "--writer",  # Or --writer, --draw, etc.
-            '--accept="socket,host=localhost,port={port};urp;StarOffice.ServiceManager"'
+            f'--accept="socket,host=localhost,port={port};urp;StarOffice.ServiceManager"'
         ]
 
         # Use Popen to launch LibreOffice without blocking your Python script

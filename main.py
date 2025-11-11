@@ -77,7 +77,7 @@ def convert_odt_to_docx(odt_file_path, docx_output_path):
 
 # -------------------------------------------------------------------------------------------------
 
-def open_libreoffice():
+def open_libreoffice(port):
     # UNO component context for initializing the Python runtime
     localContext = uno.getComponentContext()
 
@@ -87,7 +87,7 @@ def open_libreoffice():
 
     context = resolver.resolve(
         "uno:socket,host=localhost,"
-        "port=2083;urp;StarOffice.ComponentContext")
+        f"port={port};urp;StarOffice.ComponentContext")
 
     desktop1 = context.ServiceManager.createInstanceWithContext(
         "com.sun.star.frame.Desktop", context)
@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
     interpreter_path = sys.executable
     print("Python Interpreter: " + interpreter_path)
-    if 'libreoffice' in interpreter_path.casefold():
+    if constants.LIBRE_OFFICE_FOLDER_BASE.casefold() in interpreter_path.casefold():
         print('Correct Python Interpreter is being used.')
     else:
         print('LibreOffice Python Interpreter must be used.')
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     print(f"Folder: {lcFolder}")
 
     start_lo = StartLO()
-    start_lo.start_libreoffice_headless(2002)
+    start_lo.start_libreoffice_headless(constants.LIBRE_OFFICE_PORT)
 
     lcMasterExt = constants.MASTER_EXT
     lcOpenDocExt = constants.OPEN_DOC_EXT
@@ -151,6 +151,6 @@ if __name__ == '__main__':
             # convert_odm_to_odt(lcFolder + lcMaster)
             # convert_odt_to_docx(lcFolder + lcODT, lcFolder)
 
-            desktop = open_libreoffice()
+            desktop = open_libreoffice(constants.LIBRE_OFFICE_PORT)
 
 # -------------------------------------------------------------------------------------------------
