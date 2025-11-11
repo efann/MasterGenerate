@@ -10,45 +10,6 @@ import uno
 
 constants = Constants()
 
-
-# -------------------------------------------------------------------------------------------------
-
-def open_libreoffice(port):
-    # UNO component context for initializing the Python runtime
-    localContext = uno.getComponentContext()
-
-    # Create an instance of a service implementation
-    resolver = localContext.ServiceManager.createInstanceWithContext(
-        "com.sun.star.bridge.UnoUrlResolver", localContext)
-
-    context = resolver.resolve(
-        "uno:socket,host=localhost,"
-        f"port={port};urp;StarOffice.ComponentContext")
-
-    desktop1 = context.ServiceManager.createInstanceWithContext(
-        "com.sun.star.frame.Desktop", context)
-    return desktop1
-
-    # Get the component context
-    localContext = uno.getComponentContext()
-
-    # Create a resolver to connect to the running LibreOffice instance
-    resolver = localContext.ServiceManager.createInstanceWithContext(
-        "com.sun.star.bridge.UnoUrlResolver", localContext
-    )
-
-    # Connect to the LibreOffice instance
-    args = "socket,host=localhost,port=2021"
-    ctx = resolver.resolve(f"uno:{args};"
-                           "urp;"
-                           "StarOffice.ComponentContext")
-
-    loServiceManager = ctx.ServiceManager
-    loDesktop = loServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", ctx)
-
-    return loDesktop
-
-
 # -------------------------------------------------------------------------------------------------
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -86,9 +47,14 @@ if __name__ == '__main__':
             print('Open Document: ' + lcFolder + lcODT)
             print('Word: ' + lcFolder + lcWord)
 
-            start_lo.convert_odm_to_odt(lcFolder + lcMaster)
-            start_lo.convert_odt_to_docx(lcFolder + lcODT, lcFolder)
+            #start_lo.convert_odm_to_odt(lcFolder + lcMaster)
+            #start_lo.convert_odt_to_docx(lcFolder + lcODT, lcFolder)
 
-            # desktop = open_libreoffice(constants.LIBRE_OFFICE_PORT)
+            desktop = start_lo.open_libreoffice()
+
+            # Load a LibreOffice document, and automatically display it on the screen
+            desktop.loadComponentFromURL(lcFolder + lcMaster, "_blank", 0, tuple([]))
+
+    start_lo.stop_libreoffice_process()
 
 # -------------------------------------------------------------------------------------------------

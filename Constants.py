@@ -12,6 +12,8 @@ class Constants:
         self.LIBRE_OFFICE = f"C:\\Program Files\\{self.LIBRE_OFFICE_FOLDER_BASE}\\program\\soffice.exe"
         self.LIBRE_OFFICE_PORT = 2002
 
+        self.LIBRE_OFFICE_CONNECTION_URI = f"uno:socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext"
+
         self.TARGET_FOLDER = "Tales from My Neighbor's Desk"
 
         self.MASTER_EXT = '.odm'

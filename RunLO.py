@@ -6,7 +6,12 @@ import psutil
 import subprocess
 from asyncio import start_server
 
+
+import uno
+
 from Constants import Constants
+
+
 
 
 # -------------------------------------------------------------------------------------------------
@@ -98,6 +103,39 @@ class StartLO:
             self.process.terminate()
             print("LibreOffice process terminated.")
             self.constants.print_line_marker()
+
+    # -------------------------------------------------------------------------------------------------
+    def open_libreoffice(self):
+
+        # UNO component context for initializing the Python runtime
+        # local_context = uno.getComponentContext()
+        #
+        # # Create an instance of a service implementation
+        # resolver = local_context.ServiceManager.createInstanceWithContext(
+        #     "com.sun.star.bridge.UnoUrlResolver", local_context)
+        #
+        # context = resolver.resolve(
+        #     "uno:socket,host=localhost,"
+        #     f"port={self.constants.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext")
+        #
+        # return context.ServiceManager.createInstanceWithContext(
+        #     "com.sun.star.frame.Desktop", context)
+
+
+        local_context = uno.getComponentContext()
+        resolver = local_context.ServiceManager.createInstanceWithContext(
+            "com.sun.star.bridge.UnoUrlResolver", local_context
+        )
+        try:
+            remote_context = resolver.resolve(self.constants.LIBRE_OFFICE_CONNECTION_URI)
+        except:
+            raise Exception("Cannot establish a connection to LibreOffice.")
+
+        return remote_context.ServiceManager.createInstanceWithContext(
+            "com.sun.star.frame.Desktop", remote_context
+        )
+
+
 
     # -------------------------------------------------------------------------------------------------
     def convert_odm_to_odt(self, odm_filepath):
