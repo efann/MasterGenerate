@@ -1,6 +1,10 @@
 import subprocess
 import os
 import time
+import psutil
+
+import subprocess
+from asyncio import start_server
 
 from Constants import Constants
 
@@ -16,7 +20,7 @@ class StartLO:
 
     # -------------------------------------------------------------------------------------------------
 
-    def start_libreoffice_headless(self, port):
+    def start_libreoffice_headless(self):
         """
         Starts LibreOffice in headless mode, listening for connections on a specified port.
         """
@@ -38,7 +42,7 @@ class StartLO:
         command = [
             libreoffice_path,
             "--writer",  # Or --writer, --draw, etc.
-            f'--accept="socket,host=localhost,port={port};urp;StarOffice.ServiceManager"'
+            f'--accept="socket,host=localhost,port={self.constants.LIBRE_OFFICE_PORT};urp;StarOffice.ServiceManager"'
         ]
 
         # Use Popen to launch LibreOffice without blocking your Python script
@@ -62,10 +66,34 @@ class StartLO:
         #     return None
 
     # -------------------------------------------------------------------------------------------------
+    def is_libreoffice_listener_running(self):
+
+        lo_port = self.constants.LIBRE_OFFICE_PORT
+        """Checks if a LibreOffice process is running in listener mode on a specific port."""
+        for proc in psutil.process_iter(['name', 'cmdline']):
+            try:
+                if 'soffice' in proc.info['name'].lower():
+                    # Check command line arguments for the listener flag and port
+                    if proc.info['cmdline'] and any(f"port={lo_port}" in arg for arg in proc.info['cmdline']):
+                        return True
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+
+        return False
+
+    # -------------------------------------------------------------------------------------------------
     def stop_libreoffice_process(self):
         """
         Terminates the LibreOffice process.
         """
+        lo_port = self.constants.LIBRE_OFFICE_PORT
+
+        if self.is_libreoffice_listener_running():
+            print(f"LibreOffice listener is running on port {lo_port}.")
+        else:
+            print(f"LibreOffice listener is not running on port {lo_port}.")
+            exit(0)
+
         if self.process:
             self.process.terminate()
             print("LibreOffice process terminated.")
@@ -101,7 +129,8 @@ class StartLO:
         except subprocess.CalledProcessError as e:
             print(f"Error during conversion: {e}")
             print(f"Command executed: {' '.join(command)}")
-            self.constants.print_line_marker()
+
+        self.constants.print_line_marker()
 
     # -------------------------------------------------------------------------------------------------
 
@@ -126,6 +155,8 @@ class StartLO:
         except subprocess.CalledProcessError as e:
             print(f"Error during conversion: {e}")
             print(f"Command executed: {' '.join(command)}")
+
+        self.constants.print_line_marker()
 
     # -------------------------------------------------------------------------------------------------
 

@@ -1,9 +1,7 @@
 import os
-import subprocess
-from asyncio import start_server
 
 from Constants import Constants
-from UseLO import StartLO
+from RunLO import StartLO
 
 import sys
 import uno
@@ -67,8 +65,10 @@ if __name__ == '__main__':
 
     print(f"Folder: {lcFolder}")
 
+    print(constants.LINE_MARKER)
+
     start_lo = StartLO()
-    start_lo.start_libreoffice_headless(constants.LIBRE_OFFICE_PORT)
+    start_lo.start_libreoffice_headless()
 
     lcMasterExt = constants.MASTER_EXT
     lcOpenDocExt = constants.OPEN_DOC_EXT
@@ -86,9 +86,9 @@ if __name__ == '__main__':
             print('Open Document: ' + lcFolder + lcODT)
             print('Word: ' + lcFolder + lcWord)
 
-            # convert_odm_to_odt(lcFolder + lcMaster)
-            # convert_odt_to_docx(lcFolder + lcODT, lcFolder)
+            start_lo.convert_odm_to_odt(lcFolder + lcMaster)
+            start_lo.convert_odt_to_docx(lcFolder + lcODT, lcFolder)
 
-            desktop = open_libreoffice(constants.LIBRE_OFFICE_PORT)
+            # desktop = open_libreoffice(constants.LIBRE_OFFICE_PORT)
 
 # -------------------------------------------------------------------------------------------------
