@@ -18,7 +18,6 @@ import uno
 
 constants = Constants()
 
-
 # -------------------------------------------------------------------------------------------------
 def convert_odm_to_odt(odm_filepath):
     """
@@ -130,7 +129,7 @@ if __name__ == '__main__':
 
     print(f"Folder: {lcFolder}")
 
-    start_lo = StartLO
+    start_lo = StartLO()
     start_lo.start_libreoffice_headless(2002)
 
     lcMasterExt = constants.MASTER_EXT
