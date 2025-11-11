@@ -1,13 +1,15 @@
 import os
 import subprocess
+from asyncio import start_server
+
 from Constants import Constants
-#from com.sun.star.beans import PropertyValue
+# from com.sun.star.beans import PropertyValue
 
 from sys import path
 
 from StartLO import StartLO
 
-path.append('C:\Program Files\LibreOffice\program')
+#path.append('C:\Program Files\LibreOffice\program')
 
 import sys
 import uno
@@ -73,6 +75,7 @@ def convert_odt_to_docx(odt_file_path, docx_output_path):
         print(f"Error during conversion: {e}")
         print(f"Command executed: {' '.join(command)}")
 
+
 # -------------------------------------------------------------------------------------------------
 
 def open_libreoffice():
@@ -83,7 +86,6 @@ def open_libreoffice():
     resolver = localContext.ServiceManager.createInstanceWithContext(
         "com.sun.star.bridge.UnoUrlResolver", localContext)
 
-
     context = resolver.resolve(
         "uno:socket,host=localhost,"
         "port=2083;urp;StarOffice.ComponentContext")
@@ -91,7 +93,6 @@ def open_libreoffice():
     desktop1 = context.ServiceManager.createInstanceWithContext(
         "com.sun.star.frame.Desktop", context)
     return desktop1
-
 
     # Get the component context
     localContext = uno.getComponentContext()
@@ -112,6 +113,7 @@ def open_libreoffice():
 
     return loDesktop
 
+
 # -------------------------------------------------------------------------------------------------
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -127,6 +129,9 @@ if __name__ == '__main__':
     lcFolder = constants.MASTER_FOLDER
 
     print(f"Folder: {lcFolder}")
+
+    start_lo = StartLO
+    start_lo.start_libreoffice_headless(2002)
 
     lcMasterExt = constants.MASTER_EXT
     lcOpenDocExt = constants.OPEN_DOC_EXT
@@ -144,13 +149,9 @@ if __name__ == '__main__':
             print('Open Document: ' + lcFolder + lcODT)
             print('Word: ' + lcFolder + lcWord)
 
-            #convert_odm_to_odt(lcFolder + lcMaster)
+            # convert_odm_to_odt(lcFolder + lcMaster)
             # convert_odt_to_docx(lcFolder + lcODT, lcFolder)
 
             desktop = open_libreoffice()
-
-
-
-
 
 # -------------------------------------------------------------------------------------------------
