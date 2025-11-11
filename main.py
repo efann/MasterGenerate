@@ -3,13 +3,7 @@ import subprocess
 from asyncio import start_server
 
 from Constants import Constants
-# from com.sun.star.beans import PropertyValue
-
-from sys import path
-
-from StartLO import StartLO
-
-#path.append('C:\Program Files\LibreOffice\program')
+from UseLO import StartLO
 
 import sys
 import uno
@@ -17,62 +11,6 @@ import uno
 # Establish connection to LibreOffice
 
 constants = Constants()
-
-# -------------------------------------------------------------------------------------------------
-def convert_odm_to_odt(odm_filepath):
-    """
-    Converts a LibreOffice master document (.odm) to an ODT file using the
-    LibreOffice command-line interface.
-
-    Args:
-        odm_filepath (str): The full path to the master document (.odm).
-    """
-    input_path = os.path.abspath(odm_filepath)
-    output_dir = os.path.dirname(input_path)
-
-    libre_office = constants.LIBRE_OFFICE
-
-    command = [
-        libre_office,
-        '--headless',
-        '--convert-to',
-        'odt',
-        '--outdir',
-        output_dir,
-        input_path
-    ]
-
-    try:
-        subprocess.run(command, check=True)
-        print(f"Conversion successful: {odm_filepath} converted to ODT in {output_dir}")
-    except subprocess.CalledProcessError as e:
-        print(f"Error during conversion: {e}")
-        print(f"Command executed: {' '.join(command)}")
-
-
-# -------------------------------------------------------------------------------------------------
-
-def convert_odt_to_docx(odt_file_path, docx_output_path):
-    # Path to LibreOffice executable (adjust for your system)
-    libre_office = constants.LIBRE_OFFICE
-
-    # Command to convert using LibreOffice headless mode
-    command = [
-        libre_office,
-        "--headless",
-        "--convert-to",
-        "docx",
-        "--outdir",
-        os.path.dirname(docx_output_path),
-        odt_file_path
-    ]
-
-    try:
-        subprocess.run(command, check=True)
-        print(f"Conversion successful: {odt_file_path} converted to DOCX in {docx_output_path}")
-    except subprocess.CalledProcessError as e:
-        print(f"Error during conversion: {e}")
-        print(f"Command executed: {' '.join(command)}")
 
 
 # -------------------------------------------------------------------------------------------------
