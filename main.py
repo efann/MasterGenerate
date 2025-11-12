@@ -55,13 +55,8 @@ if __name__ == '__main__':
             print('Open Document: ' + lcFolder + lcODT)
             print('Word: ' + lcFolder + lcWord)
 
-            #start_lo.convert_odm_to_odt(lcFolder + lcMaster)
+            start_lo.convert_odm_to_odt(lcFolder, lcMaster, lcODT)
             #start_lo.convert_odt_to_docx(lcFolder + lcODT, lcFolder)
-
-            desktop = start_lo.open_libreoffice()
-
-            # Load a LibreOffice document, and automatically display it on the screen
-            desktop.loadComponentFromURL(uno.systemPathToFileUrl(lcFolder + lcMaster), "_blank", 0, tuple([]))
 
     start_lo.stop_libreoffice_process()
 

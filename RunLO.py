@@ -7,7 +7,6 @@ import uno
 
 from Constants import Constants
 
-
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
@@ -112,7 +111,7 @@ class StartLO:
         )
 
     # -------------------------------------------------------------------------------------------------
-    def convert_odm_to_odt(self, odm_filepath):
+    def convert_odm_to_odt(self, odm_filepath, master_file, odt_file):
         """
         Converts a LibreOffice master document (.odm) to an ODT file using the
         LibreOffice command-line interface.
@@ -120,27 +119,27 @@ class StartLO:
         Args:
             odm_filepath (str): The full path to the master document (.odm).
         """
-        input_path = os.path.abspath(odm_filepath)
-        output_dir = os.path.dirname(input_path)
+        input_file = uno.systemPathToFileUrl(os.path.abspath(odm_filepath + master_file))
+        output_file = uno.systemPathToFileUrl(os.path.dirname(odm_filepath + odt_file))
 
-        libre_office = self.constants.LIBRE_OFFICE
 
-        command = [
-            libre_office,
-            '--headless',
-            '--convert-to',
-            'odt',
-            '--outdir',
-            output_dir,
-            input_path
-        ]
+        desktop = self.open_libreoffice()
 
+        # Load a LibreOffice document, and automatically display it on the screen
+        desktop.loadComponentFromURL(input_file, "_blank", 0, tuple([]))
+
+        property_value = uno.getClass('com.sun.star.beans.PropertyValue')
+
+        save_opts = (
+            property_value(Name="Overwrite", Value=True),
+            property_value(Name="FilterName", Value="writer8"),
+        )
         try:
-            subprocess.run(command, check=True)
-            print(f"Conversion successful: {odm_filepath} converted to ODT in {output_dir}")
-        except subprocess.CalledProcessError as e:
-            print(f"Error during conversion: {e}")
-            print(f"Command executed: {' '.join(command)}")
+            desktop.storeAsURL(output_file, save_opts)
+            print("Document", input_file, " saved under ", output_file)
+        finally:
+            desktop.dispose()
+            print("Document closed!")
 
         self.constants.print_line_marker()
 
