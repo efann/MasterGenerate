@@ -12,12 +12,8 @@ class Constants:
         self.LIBRE_OFFICE = f"C:\\Program Files\\{self.LIBRE_OFFICE_FOLDER_BASE}\\program\\soffice.exe"
         self.LIBRE_OFFICE_PORT = 2002
 
-        # start soffice "--accept=socket,host=localhost,port=2002;urp;"
-
-        #f'--accept="socket,host=localhost,port={self.constants.LIBRE_OFFICE_PORT};urp;StarOffice.ServiceManager"'
-
-        self.LIBRE_OFFICE_CONNECTION_URI = f"uno:socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext"
         self.LIBRE_OFFICE_CONNECTION_INIT = f"--accept=socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;"
+        self.LIBRE_OFFICE_CONNECTION_URI = f"uno:socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext"
 
         self.TARGET_FOLDER = "Tales from My Neighbor's Desk"
 
@@ -58,7 +54,6 @@ class Constants:
         self.print_line_marker()
 
     # -------------------------------------------------------------------------------------------------
-
     def get_onedrive(self):
 
         onedrive_path = os.environ.get('OneDrive')
@@ -72,6 +67,7 @@ class Constants:
                 potential_path = os.path.join(user_profile, 'OneDrive')
                 if os.path.isdir(potential_path):
                     return potential_path
+
             return None
 
     # -------------------------------------------------------------------------------------------------

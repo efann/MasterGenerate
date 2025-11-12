@@ -2,16 +2,10 @@ import subprocess
 import os
 import time
 import psutil
-
 import subprocess
-from asyncio import start_server
-
-
 import uno
 
 from Constants import Constants
-
-
 
 
 # -------------------------------------------------------------------------------------------------
@@ -36,6 +30,7 @@ class StartLO:
             print(f"Error: LibreOffice executable not found at {libreoffice_path}")
             return None
 
+        # Example:
         # command = [
         #     libreoffice_path,
         #     "--headless",
@@ -48,6 +43,7 @@ class StartLO:
             libreoffice_path,
             "--writer",  # Or --writer, --draw, etc.
             self.constants.LIBRE_OFFICE_CONNECTION_INIT,
+            "--nologo"
         ]
 
         # Use Popen to launch LibreOffice without blocking your Python script
@@ -61,14 +57,6 @@ class StartLO:
             print(f"Error starting LibreOffice: {e}")
             self.constants.print_line_marker()
             return None
-
-        # try:
-        #     self.process = subprocess.Popen(command)
-        #     print(f"LibreOffice process started in headless mode on port {port}.")
-        #     return self.process
-        # except Exception as e:
-        #     print(f"Error starting LibreOffice: {e}")
-        #     return None
 
     # -------------------------------------------------------------------------------------------------
     def is_libreoffice_listener_running(self):
@@ -108,21 +96,9 @@ class StartLO:
     def open_libreoffice(self):
 
         # UNO component context for initializing the Python runtime
-        # local_context = uno.getComponentContext()
-        #
-        # # Create an instance of a service implementation
-        # resolver = local_context.ServiceManager.createInstanceWithContext(
-        #     "com.sun.star.bridge.UnoUrlResolver", local_context)
-        #
-        # context = resolver.resolve(
-        #     "uno:socket,host=localhost,"
-        #     f"port={self.constants.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext")
-        #
-        # return context.ServiceManager.createInstanceWithContext(
-        #     "com.sun.star.frame.Desktop", context)
-
-
         local_context = uno.getComponentContext()
+
+        # Create an instance of a service implementation
         resolver = local_context.ServiceManager.createInstanceWithContext(
             "com.sun.star.bridge.UnoUrlResolver", local_context
         )
@@ -134,8 +110,6 @@ class StartLO:
         return remote_context.ServiceManager.createInstanceWithContext(
             "com.sun.star.frame.Desktop", remote_context
         )
-
-
 
     # -------------------------------------------------------------------------------------------------
     def convert_odm_to_odt(self, odm_filepath):
