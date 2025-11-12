@@ -47,7 +47,7 @@ class StartLO:
         command = [
             libreoffice_path,
             "--writer",  # Or --writer, --draw, etc.
-            f'--accept="socket,host=localhost,port={self.constants.LIBRE_OFFICE_PORT};urp;StarOffice.ServiceManager"'
+            self.constants.LIBRE_OFFICE_CONNECTION_INIT,
         ]
 
         # Use Popen to launch LibreOffice without blocking your Python script

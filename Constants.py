@@ -12,7 +12,12 @@ class Constants:
         self.LIBRE_OFFICE = f"C:\\Program Files\\{self.LIBRE_OFFICE_FOLDER_BASE}\\program\\soffice.exe"
         self.LIBRE_OFFICE_PORT = 2002
 
+        # start soffice "--accept=socket,host=localhost,port=2002;urp;"
+
+        #f'--accept="socket,host=localhost,port={self.constants.LIBRE_OFFICE_PORT};urp;StarOffice.ServiceManager"'
+
         self.LIBRE_OFFICE_CONNECTION_URI = f"uno:socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext"
+        self.LIBRE_OFFICE_CONNECTION_INIT = f"--accept=socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;"
 
         self.TARGET_FOLDER = "Tales from My Neighbor's Desk"
 

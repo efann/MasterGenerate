@@ -1,5 +1,7 @@
 import os
 
+import uno
+
 from Constants import Constants
 from RunLO import StartLO
 
@@ -59,7 +61,7 @@ if __name__ == '__main__':
             desktop = start_lo.open_libreoffice()
 
             # Load a LibreOffice document, and automatically display it on the screen
-            desktop.loadComponentFromURL(lcFolder + lcMaster, "_blank", 0, tuple([]))
+            desktop.loadComponentFromURL(uno.systemPathToFileUrl(lcFolder + lcMaster), "_blank", 0, tuple([]))
 
     start_lo.stop_libreoffice_process()
 
