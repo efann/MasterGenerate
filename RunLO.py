@@ -1,5 +1,6 @@
 import subprocess
 import os
+import keyboard
 import time
 import psutil
 import subprocess
@@ -121,12 +122,15 @@ class StartLO:
         """
         input_file = uno.systemPathToFileUrl(os.path.abspath(odm_filepath + master_file))
         output_file = uno.systemPathToFileUrl(os.path.dirname(odm_filepath + odt_file))
-
+        output_file = os.path.dirname(odm_filepath + odt_file)
 
         desktop = self.open_libreoffice()
 
         # Load a LibreOffice document, and automatically display it on the screen
         desktop.loadComponentFromURL(input_file, "_blank", 0, tuple([]))
+
+        print("Press any key to continue...")
+        keyboard.read_key()
 
         property_value = uno.getClass('com.sun.star.beans.PropertyValue')
 
