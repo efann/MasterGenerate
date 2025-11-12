@@ -129,7 +129,8 @@ class StartLO:
         # Load a LibreOffice document, and automatically display it on the screen
         desktop.loadComponentFromURL(input_file, "_blank", 0, tuple([]))
 
-        print("Press any key to continue...")
+        self.constants.print_line_marker()
+        print("Wait for the master document to finish refreshing, then press any key to continue...")
         keyboard.read_key()
 
         property_value = uno.getClass('com.sun.star.beans.PropertyValue')
