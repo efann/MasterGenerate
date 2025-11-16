@@ -1,11 +1,8 @@
 import os
-
-import uno
+import sys
 
 from Constants import Constants
 from RunLO import StartLO
-
-import sys
 
 # Establish connection to LibreOffice
 
@@ -30,7 +27,6 @@ if __name__ == '__main__':
     # start soffice "--accept=socket,host=localhost,port=2002;urp;"
     # But not
     # start soffice "--accept=socket,host=localhost,port=2002;urp;" --writer --norestore
-
 
     print(f"Folder: {lcFolder}")
 

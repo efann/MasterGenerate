@@ -1,17 +1,14 @@
-import subprocess
 import os
+import subprocess
+import time
 from pathlib import Path
 
 import keyboard
-import time
 import psutil
-import subprocess
 import uno
+from ooodev.loader.lo import Lo
 
 from Constants import Constants
-
-from ooodev.loader.lo import Lo
-from ooodev.write import WriteDoc
 
 
 # -------------------------------------------------------------------------------------------------
@@ -209,8 +206,6 @@ class StartLO:
 
             print("Press any key to continue...")
             keyboard.read_key()  # Waits for any key to be pressed and returns its name
-
-
 
         self.constants.print_line_marker()
         return 0
