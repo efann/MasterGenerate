@@ -7,7 +7,6 @@ import keyboard
 import psutil
 import uno
 from ooodev.loader.lo import Lo
-from ooodev.write import WriteDoc
 
 from Constants import Constants
 
@@ -20,6 +19,7 @@ class StartLO:
     def __init__(self):
         self.process = None
         self.constants = Constants()
+        self.loader = None
 
     # -------------------------------------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ class StartLO:
         )
 
     # -------------------------------------------------------------------------------------------------
-    def convert_odm_to_odt(self, odm_filepath, master_file, odt_file):
+    def convert_odm_to_odt_test(self, odm_filepath, master_file, odt_file):
         """
         Converts a LibreOffice master document (.odm) to an ODT file using the
         LibreOffice command-line interface.
@@ -154,7 +154,7 @@ class StartLO:
 
     # -------------------------------------------------------------------------------------------------
 
-    def convert_odt_to_docx(self, odt_file_path, docx_output_path):
+    def convert_odt_to_docx_test(self, odt_file_path, docx_output_path):
         # Path to LibreOffice executable (adjust for your system)
         libre_office = self.constants.LIBRE_OFFICE
 
@@ -179,39 +179,49 @@ class StartLO:
         self.constants.print_line_marker()
 
     # -------------------------------------------------------------------------------------------------
+    def load_lo(self):
+        try:
+            if self.loader is None:
+                self.loader = Lo.load_office(connector=Lo.ConnectPipe())
+        except Exception as e:
+            print(f"An error occurred while loading LibreOffice: {e}")
+            if self.loader:
+                Lo.close_office()
+            exit(1)
 
-    def convert_master_to_odt(self, odm_filepath, master_file, odt_file):
+    # -------------------------------------------------------------------------------------------------
+    def close_lo(self):
+        try:
+            if self.loader:
+                Lo.close_office()
+        except Exception as e:
+            print(f"An error occurred while closing LibreOffice: {e}")
+            exit(1)
+
+    # -------------------------------------------------------------------------------------------------
+
+    def convert_odm_to_odt(self, odm_filepath, master_file, odt_file):
 
         self.constants.print_line_marker()
 
         input_file = Path(odm_filepath + master_file)
-        # input_file = uno.systemPathToFileUrl(os.path.abspath(odm_filepath + master_file))
-
         output_file = Path(odm_filepath + odt_file)
 
         print(f"Master file: {input_file}")
         print(f"ODT File: {output_file}")
 
-        # if not input_file.is_file():
-        #     print(f"Error: File not found at '{input_file}'")
-        #     return 1
-
-        loader = None
-        #with Lo.Loader(Lo.ConnectSocket(headless=True)) as loader:
         try:
-            loader = Lo.load_office(connector=Lo.ConnectPipe())
             # Explicitly open the document using the loader
-            doc = Lo.open_doc(fnm=input_file, loader=loader)
+            doc = Lo.open_doc(fnm=input_file, loader=self.loader)
 
             if doc is None:
                 print(f"Failed to load document: {input_file}")
                 return 1
 
-
             print(f"Document '{input_file}' opened successfully.")
 
             print("Press any key to continue...")
-            #keyboard.read_key()  # Waits for any key to be pressed and returns its name
+            # keyboard.read_key()  # Waits for any key to be pressed and returns its name
             Lo.save(doc)
             print(f"Document '{input_file}' saved successfully.")
 
@@ -220,7 +230,46 @@ class StartLO:
 
         except Exception as e:
             print(f"An error occurred: {e}")
-            if loader:
+            if self.loader:
+                Lo.close_office()
+            exit(1)
+
+        self.constants.print_line_marker()
+        return 0
+
+    # -------------------------------------------------------------------------------------------------
+
+    def convert_odt_to_docx(self, odm_filepath, odt_file, docx_file):
+
+        self.constants.print_line_marker()
+
+        input_file = Path(odm_filepath + odt_file)
+        output_file = Path(odm_filepath + docx_file)
+
+        print(f"ODT file: {input_file}")
+        print(f"DOCX File: {output_file}")
+
+        try:
+            # Explicitly open the document using the loader
+            doc = Lo.open_doc(fnm=input_file, loader=self.loader)
+
+            if doc is None:
+                print(f"Failed to load document: {input_file}")
+                return 1
+
+            print(f"Document '{input_file}' opened successfully.")
+
+            print("Press any key to continue...")
+            # keyboard.read_key()  # Waits for any key to be pressed and returns its name
+            Lo.save(doc)
+            print(f"Document '{input_file}' saved successfully.")
+
+            Lo.save_doc(doc, fnm=output_file)
+            print(f"Document '{output_file}' saved successfully.")
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            if self.loader:
                 Lo.close_office()
             return 1
 
