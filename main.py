@@ -40,6 +40,7 @@ if __name__ == '__main__':
     lcWordExt = constants.WORD_EXT
 
     start_lo.load_lo()
+
     for lcFilename in os.listdir(lcFolder):
         if lcFilename.endswith(lcMasterExt) and os.path.isfile(os.path.join(lcFolder, lcFilename)):
             lcMaster = lcFilename
@@ -51,9 +52,6 @@ if __name__ == '__main__':
             print('Master: ' + lcFolder + lcMaster)
             print('Open Document: ' + lcFolder + lcODT)
             print('Word: ' + lcFolder + lcWord)
-
-            # start_lo.convert_odm_to_odt(lcFolder, lcMaster, lcODT)
-            # start_lo.convert_odt_to_docx(lcFolder + lcODT, lcFolder)
 
             start_lo.convert_odm_to_odt(lcFolder, lcMaster, lcODT)
             start_lo.convert_odt_to_docx(lcFolder, lcODT, lcWord)

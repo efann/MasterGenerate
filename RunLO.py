@@ -2,6 +2,7 @@ import os
 import subprocess
 import time
 from pathlib import Path
+from time import sleep
 
 import keyboard
 import psutil
@@ -126,7 +127,6 @@ class StartLO:
         """
         input_file = uno.systemPathToFileUrl(os.path.abspath(odm_filepath + master_file))
         output_file = uno.systemPathToFileUrl(os.path.dirname(odm_filepath + odt_file))
-        output_file = os.path.dirname(odm_filepath + odt_file)
 
         desktop = self.open_libreoffice()
 
@@ -220,6 +220,8 @@ class StartLO:
 
             print(f"Document '{input_file}' opened successfully.")
 
+            sleep(10)
+
             print("Press any key to continue...")
             # keyboard.read_key()  # Waits for any key to be pressed and returns its name
             Lo.save(doc)
@@ -258,9 +260,8 @@ class StartLO:
                 return 1
 
             print(f"Document '{input_file}' opened successfully.")
+            sleep(10)
 
-            print("Press any key to continue...")
-            # keyboard.read_key()  # Waits for any key to be pressed and returns its name
             Lo.save(doc)
             print(f"Document '{input_file}' saved successfully.")
 
