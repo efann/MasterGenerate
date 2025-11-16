@@ -7,6 +7,7 @@ import keyboard
 import psutil
 import uno
 from ooodev.loader.lo import Lo
+from ooodev.write import WriteDoc
 
 from Constants import Constants
 
@@ -184,17 +185,21 @@ class StartLO:
         self.constants.print_line_marker()
 
         input_file = Path(odm_filepath + master_file)
+        # input_file = uno.systemPathToFileUrl(os.path.abspath(odm_filepath + master_file))
+
         output_file = Path(odm_filepath + odt_file)
 
         print(f"Master file: {input_file}")
         print(f"ODT File: {output_file}")
 
-        if not input_file.is_file():
-            print(f"Error: File not found at '{input_file}'")
-            return 1
+        # if not input_file.is_file():
+        #     print(f"Error: File not found at '{input_file}'")
+        #     return 1
 
         loader = None
-        with Lo.Loader(Lo.ConnectSocket(headless=False)) as loader:
+        #with Lo.Loader(Lo.ConnectSocket(headless=True)) as loader:
+        try:
+            loader = Lo.load_office(connector=Lo.ConnectPipe())
             # Explicitly open the document using the loader
             doc = Lo.open_doc(fnm=input_file, loader=loader)
 
@@ -202,10 +207,22 @@ class StartLO:
                 print(f"Failed to load document: {input_file}")
                 return 1
 
+
             print(f"Document '{input_file}' opened successfully.")
 
             print("Press any key to continue...")
-            keyboard.read_key()  # Waits for any key to be pressed and returns its name
+            #keyboard.read_key()  # Waits for any key to be pressed and returns its name
+            Lo.save(doc)
+            print(f"Document '{input_file}' saved successfully.")
+
+            Lo.save_doc(doc, fnm=output_file)
+            print(f"Document '{output_file}' saved successfully.")
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            if loader:
+                Lo.close_office()
+            return 1
 
         self.constants.print_line_marker()
         return 0
