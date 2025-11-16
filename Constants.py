@@ -1,5 +1,6 @@
 import os
 
+from dotenv import load_dotenv
 
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
@@ -7,6 +8,8 @@ import os
 class Constants:
     # -------------------------------------------------------------------------------------------------
     def __init__(self):
+        load_dotenv()
+
         self.LINE_MARKER = '============================================================================='
 
         self.LIBRE_OFFICE_FOLDER_BASE = 'LibreOffice'
@@ -16,7 +19,10 @@ class Constants:
         self.LIBRE_OFFICE_CONNECTION_INIT = f"--accept=socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;"
         self.LIBRE_OFFICE_CONNECTION_URI = f"uno:socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext"
 
-        self.TARGET_FOLDER = "Tales from My Neighbor's Desk"
+        self.TARGET_FOLDER = os.getenv('MASTER_FOLDER')
+        if not self.TARGET_FOLDER:
+            print("You must set the MASTER_FOLDER environment variable in the .env file")
+            exit(1)
 
         self.MASTER_EXT = '.odm'
         self.OPEN_DOC_EXT = '.odt'
