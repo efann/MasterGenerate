@@ -1,5 +1,7 @@
 import subprocess
 import os
+from pathlib import Path
+
 import keyboard
 import time
 import psutil
@@ -7,6 +9,10 @@ import subprocess
 import uno
 
 from Constants import Constants
+
+from ooodev.loader.lo import Lo
+from ooodev.write import WriteDoc
+
 
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
@@ -173,6 +179,41 @@ class StartLO:
             print(f"Command executed: {' '.join(command)}")
 
         self.constants.print_line_marker()
+
+    # -------------------------------------------------------------------------------------------------
+
+    def convert_master_to_odt(self, odm_filepath, master_file, odt_file):
+
+        self.constants.print_line_marker()
+
+        input_file = Path(odm_filepath + master_file)
+        output_file = Path(odm_filepath + odt_file)
+
+        print(f"Master file: {input_file}")
+        print(f"ODT File: {output_file}")
+
+        if not input_file.is_file():
+            print(f"Error: File not found at '{input_file}'")
+            return 1
+
+        loader = None
+        with Lo.Loader(Lo.ConnectSocket(headless=False)) as loader:
+            # Explicitly open the document using the loader
+            doc = Lo.open_doc(fnm=input_file, loader=loader)
+
+            if doc is None:
+                print(f"Failed to load document: {input_file}")
+                return 1
+
+            print(f"Document '{input_file}' opened successfully.")
+
+            print("Press any key to continue...")
+            keyboard.read_key()  # Waits for any key to be pressed and returns its name
+
+
+
+        self.constants.print_line_marker()
+        return 0
 
     # -------------------------------------------------------------------------------------------------
 

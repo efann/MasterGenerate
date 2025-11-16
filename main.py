@@ -55,9 +55,11 @@ if __name__ == '__main__':
             print('Open Document: ' + lcFolder + lcODT)
             print('Word: ' + lcFolder + lcWord)
 
-            start_lo.convert_odm_to_odt(lcFolder, lcMaster, lcODT)
-            #start_lo.convert_odt_to_docx(lcFolder + lcODT, lcFolder)
+            # start_lo.convert_odm_to_odt(lcFolder, lcMaster, lcODT)
+            # start_lo.convert_odt_to_docx(lcFolder + lcODT, lcFolder)
 
-    start_lo.stop_libreoffice_process()
+            start_lo.convert_master_to_odt(lcFolder, lcMaster, lcODT)
+
+    # start_lo.stop_libreoffice_process()
 
 # -------------------------------------------------------------------------------------------------
