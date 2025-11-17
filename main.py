@@ -48,6 +48,8 @@ if __name__ == '__main__':
             start_lo.convert_odm_to_odt(lcFolder, lcMaster, lcODT)
             start_lo.convert_odt_to_docx(lcFolder, lcODT, lcWord)
 
+            os.startfile(lcFolder + lcWord)
+
     start_lo.close_lo()
 
 # -------------------------------------------------------------------------------------------------
