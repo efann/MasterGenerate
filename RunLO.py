@@ -11,6 +11,7 @@ from ooodev.loader.lo import Lo
 
 from Constants import Constants
 
+from com.sun.star.util import XLinkUpdate
 
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
@@ -221,10 +222,19 @@ class StartLO:
 
             print(f"Document '{input_file}' opened successfully.")
 
-            sleep(10)
 
-            print("Press any key to continue...")
-            # keyboard.read_key()  # Waits for any key to be pressed and returns its name
+            # Query the document for the XLinkUpdate interface
+            link_update = Lo.qi(XLinkUpdate, doc)
+            if link_update:
+                try:
+                    # Call the updateLinks method
+                    link_update.updateLinks()
+                    print("Document links updated successfully.")
+                except Exception as e:
+                    print(f"Error updating links: {e}")
+            else:
+                print("Document does not support XLinkUpdate interface or links are not present.")
+
             Lo.save(doc)
             print(f"Document '{input_file}' saved successfully.")
 
@@ -261,7 +271,18 @@ class StartLO:
                 return 1
 
             print(f"Document '{input_file}' opened successfully.")
-            sleep(10)
+
+            # Query the document for the XLinkUpdate interface
+            link_update = Lo.qi(XLinkUpdate, doc)
+            if link_update:
+                try:
+                    # Call the updateLinks method
+                    link_update.updateLinks()
+                    print("Document links updated successfully.")
+                except Exception as e:
+                    print(f"Error updating links: {e}")
+            else:
+                print("Document does not support XLinkUpdate interface or links are not present.")
 
             Lo.save(doc)
             print(f"Document '{input_file}' saved successfully.")

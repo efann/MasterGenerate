@@ -14,10 +14,6 @@ class Constants:
 
         self.LIBRE_OFFICE_FOLDER_BASE = 'LibreOffice'
         self.LIBRE_OFFICE = f"C:\\Program Files\\{self.LIBRE_OFFICE_FOLDER_BASE}\\program\\soffice.exe"
-        self.LIBRE_OFFICE_PORT = 2002
-
-        self.LIBRE_OFFICE_CONNECTION_INIT = f"--accept=socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;"
-        self.LIBRE_OFFICE_CONNECTION_URI = f"uno:socket,host=localhost,port={self.LIBRE_OFFICE_PORT};urp;StarOffice.ComponentContext"
 
         self.TARGET_FOLDER = os.getenv('MASTER_FOLDER')
         if not self.TARGET_FOLDER:
