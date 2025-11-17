@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
+
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
@@ -13,7 +14,6 @@ class Constants:
         self.LINE_MARKER = '============================================================================='
 
         self.LIBRE_OFFICE_FOLDER_BASE = 'LibreOffice'
-        self.LIBRE_OFFICE = f"C:\\Program Files\\{self.LIBRE_OFFICE_FOLDER_BASE}\\program\\soffice.exe"
 
         self.TARGET_FOLDER = os.getenv('MASTER_FOLDER')
         if not self.TARGET_FOLDER:

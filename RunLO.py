@@ -2,16 +2,15 @@ import os
 import subprocess
 import time
 from pathlib import Path
-from time import sleep
 
 import keyboard
 import psutil
 import uno
+from com.sun.star.util import XLinkUpdate
 from ooodev.loader.lo import Lo
 
 from Constants import Constants
 
-from com.sun.star.util import XLinkUpdate
 
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
@@ -221,7 +220,6 @@ class StartLO:
                 return 1
 
             print(f"Document '{input_file}' opened successfully.")
-
 
             # Query the document for the XLinkUpdate interface
             link_update = Lo.qi(XLinkUpdate, doc)
