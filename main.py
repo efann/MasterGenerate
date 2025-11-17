@@ -22,12 +22,6 @@ if __name__ == '__main__':
 
     lcFolder = constants.MASTER_FOLDER
 
-    # This works for some reason.
-    # chdir "%ProgramFiles%\\LibreOffice\\program\\"
-    # start soffice "--accept=socket,host=localhost,port=2002;urp;"
-    # But not
-    # start soffice "--accept=socket,host=localhost,port=2002;urp;" --writer --norestore
-
     print(f"Folder: {lcFolder}")
 
     print(constants.LINE_MARKER)
