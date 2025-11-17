@@ -38,17 +38,22 @@ if __name__ == '__main__':
             lcMaster = lcFilename
 
             lcStem = os.path.splitext(lcFilename)[0]
-            lcODT = lcStem + lcOpenDocExt
-            lcWord = lcStem + lcWordExt
 
-            print('Master: ' + lcFolder + lcMaster)
-            print('Open Document: ' + lcFolder + lcODT)
-            print('Word: ' + lcFolder + lcWord)
+            lcMasterFile = lcFolder + lcMaster
+            lcODTFile = lcFolder + lcStem + lcOpenDocExt
+            lcWordFile = lcFolder + lcStem + lcWordExt
 
-            start_lo.convert_odm_to_odt(lcFolder, lcMaster, lcODT)
-            start_lo.convert_odt_to_docx(lcFolder, lcODT, lcWord)
+            print(f'Master Document: {lcMasterFile}')
+            print(f'Writer Document: {lcODTFile}')
+            print(f'Word Document: {lcWordFile}')
 
-            os.startfile(lcFolder + lcWord)
+            start_lo.convert_odm_to_odt(lcMasterFile, lcODTFile)
+            start_lo.convert_odt_to_docx(lcODTFile, lcWordFile)
+
+            try:
+                os.startfile(lcWordFile)
+            except Exception as e:
+                print(f"An error occurred opening Word: {e}")
 
     start_lo.close_lo()
 

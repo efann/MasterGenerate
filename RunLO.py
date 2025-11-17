@@ -49,12 +49,12 @@ class StartLO:
 
     # -------------------------------------------------------------------------------------------------
 
-    def convert_odm_to_odt(self, odm_filepath, master_file, odt_file):
+    def convert_odm_to_odt(self, master_file, odt_file):
 
         self.constants.print_line_marker()
 
-        input_file = Path(odm_filepath + master_file)
-        output_file = Path(odm_filepath + odt_file)
+        input_file = Path(master_file)
+        output_file = Path(odt_file)
 
         print(f"Master file: {input_file}")
         print(f"ODT File: {output_file}")
@@ -69,17 +69,7 @@ class StartLO:
 
             print(f"Document '{input_file}' opened successfully.")
 
-            # Query the document for the XLinkUpdate interface
-            link_update = Lo.qi(XLinkUpdate, doc)
-            if link_update:
-                try:
-                    # Call the updateLinks method
-                    link_update.updateLinks()
-                    print("Document links updated successfully.")
-                except Exception as e:
-                    print(f"Error updating links: {e}")
-            else:
-                print("Document does not support XLinkUpdate interface or links are not present.")
+            self.update_links(doc)
 
             Lo.save(doc)
             print(f"Document '{input_file}' saved successfully.")
@@ -98,12 +88,12 @@ class StartLO:
 
     # -------------------------------------------------------------------------------------------------
 
-    def convert_odt_to_docx(self, odm_filepath, odt_file, docx_file):
+    def convert_odt_to_docx(self, odt_file, docx_file):
 
         self.constants.print_line_marker()
 
-        input_file = Path(odm_filepath + odt_file)
-        output_file = Path(odm_filepath + docx_file)
+        input_file = Path(odt_file)
+        output_file = Path(docx_file)
 
         print(f"ODT file: {input_file}")
         print(f"DOCX File: {output_file}")
@@ -118,18 +108,9 @@ class StartLO:
 
             print(f"Document '{input_file}' opened successfully.")
 
-            # Query the document for the XLinkUpdate interface
-            link_update = Lo.qi(XLinkUpdate, doc)
-            if link_update:
-                try:
-                    # Call the updateLinks method
-                    link_update.updateLinks()
-                    print("Document links updated successfully.")
-                except Exception as e:
-                    print(f"Error updating links: {e}")
-            else:
-                print("Document does not support XLinkUpdate interface or links are not present.")
+            self.update_links(doc)
 
+            print(f"Document '{input_file}' updated successfully.")
             Lo.save(doc)
             print(f"Document '{input_file}' saved successfully.")
 
@@ -144,6 +125,21 @@ class StartLO:
 
         self.constants.print_line_marker()
         return 0
+
+    # -------------------------------------------------------------------------------------------------
+
+    def update_links(self, doc):
+        # Query the document for the XLinkUpdate interface
+        link_update = Lo.qi(XLinkUpdate, doc)
+        if link_update:
+            try:
+                # Call the updateLinks method
+                link_update.updateLinks()
+                print("Document links updated successfully.")
+            except Exception as e:
+                print(f"Error updating links: {e}")
+        else:
+            print("Document does not support XLinkUpdate interface or links are not present.")
 
     # -------------------------------------------------------------------------------------------------
 
