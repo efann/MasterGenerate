@@ -33,13 +33,11 @@ if __name__ == '__main__':
     print(constants.LINE_MARKER)
 
     start_lo = StartLO()
-    start_lo.start_libreoffice_headless()
+    start_lo.load_lo()
 
     lcMasterExt = constants.MASTER_EXT
     lcOpenDocExt = constants.OPEN_DOC_EXT
     lcWordExt = constants.WORD_EXT
-
-    start_lo.load_lo()
 
     for lcFilename in os.listdir(lcFolder):
         if lcFilename.endswith(lcMasterExt) and os.path.isfile(os.path.join(lcFolder, lcFilename)):

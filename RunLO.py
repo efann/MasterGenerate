@@ -182,7 +182,8 @@ class StartLO:
     def load_lo(self):
         try:
             if self.loader is None:
-                self.loader = Lo.load_office(connector=Lo.ConnectPipe())
+                # Defaults to headless=False
+                self.loader = Lo.load_office(connector=Lo.ConnectSocket())
         except Exception as e:
             print(f"An error occurred while loading LibreOffice: {e}")
             if self.loader:
