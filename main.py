@@ -51,6 +51,7 @@ if __name__ == '__main__':
             start_lo.convert_odt_to_docx(lcODTFile, lcWordFile)
 
             try:
+                print(f"Opening the document: {lcWordFile}")
                 os.startfile(lcWordFile)
             except Exception as e:
                 print(f"An error occurred opening Word: {e}")

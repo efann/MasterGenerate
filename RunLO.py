@@ -30,19 +30,21 @@ class StartLO:
     def load_lo(self):
         try:
             if self.loader is None:
-                # Defaults to headless=False
                 self.loader = Lo.load_office(connector=Lo.ConnectSocket())
         except Exception as e:
             print(f"An error occurred while loading LibreOffice: {e}")
-            if self.loader:
-                Lo.close_office()
-            exit(1)
+            self.close_lo()
 
     # -------------------------------------------------------------------------------------------------
     def close_lo(self):
+        print("Closing LibreOffice.")
+
         try:
             if self.loader:
+
                 Lo.close_office()
+
+                print("Closed LibreOffice.")
         except Exception as e:
             print(f"An error occurred while closing LibreOffice: {e}")
             exit(1)
@@ -79,9 +81,7 @@ class StartLO:
 
         except Exception as e:
             print(f"An error occurred: {e}")
-            if self.loader:
-                Lo.close_office()
-            exit(1)
+            self.close_lo()
 
         self.constants.print_line_marker()
         return 0
@@ -119,9 +119,7 @@ class StartLO:
 
         except Exception as e:
             print(f"An error occurred: {e}")
-            if self.loader:
-                Lo.close_office()
-            return 1
+            self.close_lo()
 
         self.constants.print_line_marker()
         return 0
@@ -134,6 +132,7 @@ class StartLO:
         if link_update:
             try:
                 # Call the updateLinks method
+                print("Updating links.")
                 link_update.updateLinks()
                 print("Document links updated successfully.")
             except Exception as e:

@@ -17,11 +17,11 @@ I set LibreOffice to automatically update all links when the document is open by
    - LibreOffice Writer | General
      - Update Links when Loading\
         _Always_
-     - LibreOffice | Security
-       - Macro Security…
-         - Trusted Sources tab
-           - Trusted File Locations\
-            _C:\Users\eddie\OneDrive\Writing_
+   - LibreOffice | Security
+     - Macro Security…
+       - Trusted Sources tab
+         - Trusted File Locations\
+          _C:\Users\eddie\OneDrive\Writing_
 
 You will need to save the master document after opening it.
 
