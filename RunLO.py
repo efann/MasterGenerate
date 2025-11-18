@@ -43,6 +43,7 @@ class StartLO:
             if self.loader:
 
                 Lo.close_office()
+                # Lo.kill_office()
 
                 print("Closed LibreOffice.")
         except Exception as e:
