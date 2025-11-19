@@ -55,7 +55,6 @@ class Constants:
             print(found_folders)
             exit(1)
 
-
         lc_template = os.getenv('MASTER_TEMPLATE')
         if not lc_template:
             print("You must set the MASTER_TEMPLATE environment variable in the .env file")
