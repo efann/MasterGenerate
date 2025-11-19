@@ -26,6 +26,7 @@ class Constants:
 
         self.ONEDRIVE = None
         self.MASTER_FOLDER = None
+        self.TEMPLATE_FILE = None
 
         self.initialize_folders_files()
 
@@ -52,6 +53,17 @@ class Constants:
             print(self.ONEDRIVE)
             print("Folder(s) found, if any")
             print(found_folders)
+            exit(1)
+
+
+        lc_template = os.getenv('MASTER_TEMPLATE')
+        if not lc_template:
+            print("You must set the MASTER_TEMPLATE environment variable in the .env file")
+            exit(1)
+
+        self.TEMPLATE_FILE = os.path.join(self.MASTER_FOLDER, lc_template)
+        if not os.path.isfile(self.TEMPLATE_FILE):
+            print(f"Template file {self.TEMPLATE_FILE} not found.")
             exit(1)
 
         self.print_line_marker()

@@ -54,6 +54,7 @@ if __name__ == '__main__':
             try:
                 print(f"Opening the document: {lcWordFile}")
                 os.startfile(lcWordFile)
+                print(f"Template file found here:\n\n{constants.TEMPLATE_FILE}\n\n")
             except Exception as e:
                 print(f"An error occurred opening Word: {e}")
 
