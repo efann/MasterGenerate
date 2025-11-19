@@ -28,6 +28,7 @@ if __name__ == '__main__':
 
     start_lo = StartLO()
     start_lo.load_lo()
+    start_lo.is_libreoffice_listener_running()
 
     lcMasterExt = constants.MASTER_EXT
     lcOpenDocExt = constants.OPEN_DOC_EXT
@@ -56,6 +57,7 @@ if __name__ == '__main__':
             except Exception as e:
                 print(f"An error occurred opening Word: {e}")
 
-    start_lo.close_lo()
+    start_lo.terminate_libreoffice()
+    sys.exit(0)
 
 # -------------------------------------------------------------------------------------------------
