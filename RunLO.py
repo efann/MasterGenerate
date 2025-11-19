@@ -30,7 +30,8 @@ class StartLO:
     def load_lo(self):
         try:
             if self.loader is None:
-                self.loader = Lo.load_office(connector=Lo.ConnectSocket())
+                # self.loader = Lo.load_office(connector=Lo.ConnectSocket(invisible=False, headless=False))
+                self.loader = Lo.load_office(connector=Lo.ConnectPipe(invisible=False, headless=False))
         except Exception as e:
             print(f"An error occurred while loading LibreOffice: {e}")
             self.close_lo()
@@ -41,9 +42,7 @@ class StartLO:
 
         try:
             if self.loader:
-
                 Lo.close_office()
-                # Lo.kill_office()
 
                 print("Closed LibreOffice.")
         except Exception as e:
