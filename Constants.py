@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 from dotenv import load_dotenv
 
@@ -26,12 +27,15 @@ class Constants:
 
         self.ONEDRIVE = None
         self.MASTER_FOLDER = None
+        self.TEMP_FOLDER = None
+        self.TEMP_DOCX_FILE = None
+        self.TEMPLATE_FILE = None
 
-        self.initialize_folders()
+        self.initialize_folders_files()
 
     # -------------------------------------------------------------------------------------------------
 
-    def initialize_folders(self):
+    def initialize_folders_files(self):
         self.ONEDRIVE = self.get_onedrive()
         if not self.ONEDRIVE:
             print("OneDrive path could not be determined.")
@@ -45,14 +49,33 @@ class Constants:
         if found_folders and len(found_folders) == 1:
             self.MASTER_FOLDER = found_folders[0]
 
-            print(self.ONEDRIVE)
-            print(self.MASTER_FOLDER)
+            print(f"OneDrive Folder: {self.ONEDRIVE}")
+            print(f"Writer Folder: {self.MASTER_FOLDER}")
         else:
             print("There must be only one Target Folder under OneDrive")
             print(self.ONEDRIVE)
             print("Folder(s) found, if any")
             print(found_folders)
             exit(1)
+
+        lc_template = os.getenv('MASTER_TEMPLATE')
+        if not lc_template:
+            print("You must set the MASTER_TEMPLATE environment variable in the .env file")
+            exit(1)
+
+        self.TEMPLATE_FILE = os.path.join(self.MASTER_FOLDER, lc_template)
+        if os.path.isfile(self.TEMPLATE_FILE):
+            print(f"Template file exists:  {self.TEMPLATE_FILE}")
+        else:
+            print(f"Template file not found:  {self.TEMPLATE_FILE}")
+            exit(1)
+
+        self.TEMP_FOLDER = tempfile.gettempdir()
+        if not self.TEMP_FOLDER:
+            print("Temp folder path could not be determined.")
+            exit(1)
+        self.TEMP_DOCX_FILE = os.path.join(self.TEMP_FOLDER, "master_temp.docx")
+        print(f"Temp file {self.TEMP_DOCX_FILE}")
 
         self.print_line_marker()
 
