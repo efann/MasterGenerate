@@ -115,12 +115,8 @@ class StartLO:
             Lo.save_doc(doc, fnm=output_file)
             print(f"Document '{output_file}' saved successfully.")
 
-            # Lo.close_doc(doc)
-            print(f"Document '{input_file}' closed.")
-
         except Exception as e:
             print(f"An error occurred: {e}")
-            # self.close_lo()
 
         self.constants.print_line_marker()
         return 0
@@ -155,12 +151,8 @@ class StartLO:
             Lo.save_doc(doc, fnm=output_file)
             print(f"Document '{output_file}' saved successfully.")
 
-            # Lo.close_doc(doc)
-            print(f"Document '{input_file}' closed.")
-
         except Exception as e:
             print(f"An error occurred: {e}")
-            # self.close_lo()
 
         self.constants.print_line_marker()
         return 0

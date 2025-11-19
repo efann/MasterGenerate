@@ -27,9 +27,6 @@ class Constants:
 
         self.ONEDRIVE = None
         self.MASTER_FOLDER = None
-        self.TEMP_FOLDER = None
-        self.TEMP_DOCX_FILE = None
-        self.TEMPLATE_FILE = None
 
         self.initialize_folders_files()
 
@@ -57,25 +54,6 @@ class Constants:
             print("Folder(s) found, if any")
             print(found_folders)
             exit(1)
-
-        lc_template = os.getenv('MASTER_TEMPLATE')
-        if not lc_template:
-            print("You must set the MASTER_TEMPLATE environment variable in the .env file")
-            exit(1)
-
-        self.TEMPLATE_FILE = os.path.join(self.MASTER_FOLDER, lc_template)
-        if os.path.isfile(self.TEMPLATE_FILE):
-            print(f"Template file exists:  {self.TEMPLATE_FILE}")
-        else:
-            print(f"Template file not found:  {self.TEMPLATE_FILE}")
-            exit(1)
-
-        self.TEMP_FOLDER = tempfile.gettempdir()
-        if not self.TEMP_FOLDER:
-            print("Temp folder path could not be determined.")
-            exit(1)
-        self.TEMP_DOCX_FILE = os.path.join(self.TEMP_FOLDER, "master_temp.docx")
-        print(f"Temp file {self.TEMP_DOCX_FILE}")
 
         self.print_line_marker()
 
