@@ -1,6 +1,8 @@
 import os
 import sys
 
+import pyperclip
+
 from Constants import Constants
 from RunLO import StartLO
 
@@ -54,7 +56,10 @@ if __name__ == '__main__':
             try:
                 print(f"Opening the document: {lcWordFile}")
                 os.startfile(lcWordFile)
-                print(f"Template file found here:\n\n{constants.TEMPLATE_FILE}\n\n")
+
+                pyperclip.copy(constants.TEMPLATE_FILE)
+                print(
+                    f"Template file found here:\n\n{constants.TEMPLATE_FILE}\n\nCopied to the clipboard, by the way, for use in Word | Developer | Document Template\n\n")
             except Exception as e:
                 print(f"An error occurred opening Word: {e}")
 
