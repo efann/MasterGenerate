@@ -13,7 +13,7 @@ from Constants import Constants
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------
-class StartLO:
+class RunLO:
     # -------------------------------------------------------------------------------------------------
     def __init__(self):
         self.process = None
@@ -28,6 +28,8 @@ class StartLO:
         #   ImportError: Are you sure that uno has been imported?
         # Sigh. . . .
         print(uno.getComponentContext())
+
+        self.constants.print_line_marker()
 
     # -------------------------------------------------------------------------------------------------
     def is_libreoffice_listener_running(self):
@@ -89,8 +91,6 @@ class StartLO:
 
     def convert_odm_to_odt(self, master_file, odt_file):
 
-        self.constants.print_line_marker()
-
         input_file = Path(master_file)
         output_file = Path(odt_file)
 
@@ -124,8 +124,6 @@ class StartLO:
     # -------------------------------------------------------------------------------------------------
 
     def convert_odt_to_docx(self, odt_file, docx_file):
-
-        self.constants.print_line_marker()
 
         input_file = Path(odt_file)
         output_file = Path(docx_file)

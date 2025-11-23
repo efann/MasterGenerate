@@ -4,37 +4,37 @@ import sys
 import pyperclip
 
 from Constants import Constants
-from RunLO import StartLO
+from RunLO import RunLO
 
 # Establish connection to LibreOffice
-
-constants = Constants()
 
 # -------------------------------------------------------------------------------------------------
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
+    run_lo = RunLO()
+
     interpreter_path = sys.executable
     print("Python Interpreter: " + interpreter_path)
-    if constants.LIBRE_OFFICE_FOLDER_BASE.casefold() in interpreter_path.casefold():
+    if run_lo.constants.LIBRE_OFFICE_FOLDER_BASE.casefold() in interpreter_path.casefold():
         print('Correct Python Interpreter is being used.')
     else:
         print('LibreOffice Python Interpreter must be used.')
         exit()
 
-    lcFolder = constants.MASTER_FOLDER
+    lcFolder = run_lo.constants.MASTER_FOLDER
 
     print(f"Folder: {lcFolder}")
 
-    print(constants.LINE_MARKER)
+    print(run_lo.constants.LINE_MARKER)
 
-    start_lo = StartLO()
-    start_lo.load_lo()
-    start_lo.is_libreoffice_listener_running()
+    run_lo.load_lo()
+    run_lo.is_libreoffice_listener_running()
+    run_lo.constants.print_line_marker()
 
-    lcMasterExt = constants.MASTER_EXT
-    lcOpenDocExt = constants.OPEN_DOC_EXT
-    lcWordExt = constants.WORD_EXT
+    lcMasterExt = run_lo.constants.MASTER_EXT
+    lcOpenDocExt = run_lo.constants.OPEN_DOC_EXT
+    lcWordExt = run_lo.constants.WORD_EXT
 
     for lcFilename in os.listdir(lcFolder):
         if lcFilename.endswith(lcMasterExt) and os.path.isfile(os.path.join(lcFolder, lcFilename)):
@@ -50,20 +50,20 @@ if __name__ == '__main__':
             print(f'Writer Document: {lcODTFile}')
             print(f'Word Document: {lcWordFile}')
 
-            start_lo.convert_odm_to_odt(lcMasterFile, lcODTFile)
-            start_lo.convert_odt_to_docx(lcODTFile, lcWordFile)
+            run_lo.convert_odm_to_odt(lcMasterFile, lcODTFile)
+            run_lo.convert_odt_to_docx(lcODTFile, lcWordFile)
 
             try:
                 print(f"Opening the document: {lcWordFile}")
                 os.startfile(lcWordFile)
 
-                pyperclip.copy(constants.TEMPLATE_FILE)
+                pyperclip.copy(run_lo.constants.TEMPLATE_FILE)
                 print(
-                    f"Template file found here:\n\n{constants.TEMPLATE_FILE}\n\nCopied to the clipboard, by the way, for use in Word | Developer | Document Template\n\n")
+                    f"Template file found here:\n\n{run_lo.constants.TEMPLATE_FILE}\n\nCopied to the clipboard, by the way, for use in Word | Developer | Document Template\n\n")
             except Exception as e:
                 print(f"An error occurred opening Word: {e}")
 
-    start_lo.terminate_libreoffice()
+    run_lo.terminate_libreoffice()
     sys.exit(0)
 
 # -------------------------------------------------------------------------------------------------
