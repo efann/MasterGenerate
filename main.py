@@ -3,7 +3,6 @@ import sys
 
 import pyperclip
 
-from Constants import Constants
 from RunLO import RunLO
 
 # Establish connection to LibreOffice
