@@ -103,23 +103,23 @@ class RunLO:
 
             if doc is None:
                 print(f"Failed to load document: {input_file}")
-                return 1
+                return False
 
             print(f"Document '{input_file}' opened successfully.")
 
-            self.update_links(doc)
+            if self.update_links(doc):
+                Lo.save(doc)
+                print(f"Document '{input_file}' saved successfully.")
 
-            Lo.save(doc)
-            print(f"Document '{input_file}' saved successfully.")
-
-            Lo.save_doc(doc, fnm=output_file)
-            print(f"Document '{output_file}' saved successfully.")
+                Lo.save_doc(doc, fnm=output_file)
+                print(f"Document '{output_file}' saved successfully.")
 
         except Exception as e:
             print(f"An error occurred: {e}")
+            return False
 
         self.constants.print_line_marker()
-        return 0
+        return True
 
     # -------------------------------------------------------------------------------------------------
 
@@ -136,24 +136,24 @@ class RunLO:
             doc = Lo.open_doc(fnm=input_file, loader=self.loader)
             if doc is None:
                 print(f"Failed to load document: {input_file}")
-                return 1
+                return False
 
             print(f"Document '{input_file}' opened successfully.")
 
-            self.update_links(doc)
+            if self.update_links(doc):
+                print(f"Document '{input_file}' updated successfully.")
+                Lo.save(doc)
+                print(f"Document '{input_file}' saved successfully.")
 
-            print(f"Document '{input_file}' updated successfully.")
-            Lo.save(doc)
-            print(f"Document '{input_file}' saved successfully.")
-
-            Lo.save_doc(doc, fnm=output_file)
-            print(f"Document '{output_file}' saved successfully.")
+                Lo.save_doc(doc, fnm=output_file)
+                print(f"Document '{output_file}' saved successfully.")
 
         except Exception as e:
             print(f"An error occurred: {e}")
+            return False
 
         self.constants.print_line_marker()
-        return 0
+        return True
 
     # -------------------------------------------------------------------------------------------------
 
@@ -168,8 +168,11 @@ class RunLO:
                 print("Document links updated successfully.")
             except Exception as e:
                 print(f"Error updating links: {e}")
+                return False
         else:
             print("Document does not support XLinkUpdate interface or links are not present.")
+
+        return True
 
     # -------------------------------------------------------------------------------------------------
 

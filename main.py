@@ -50,18 +50,17 @@ if __name__ == '__main__':
             print(f'Writer Document: {lcODTFile}')
             print(f'Word Document: {lcWordFile}')
 
-            run_lo.convert_odm_to_odt(lcMasterFile, lcODTFile)
-            run_lo.convert_odt_to_docx(lcODTFile, lcWordFile)
+            if run_lo.convert_odm_to_odt(lcMasterFile, lcODTFile):
+                if run_lo.convert_odt_to_docx(lcODTFile, lcWordFile):
+                        try:
+                            print(f"Opening the document: {lcWordFile}")
+                            os.startfile(lcWordFile)
 
-            try:
-                print(f"Opening the document: {lcWordFile}")
-                os.startfile(lcWordFile)
-
-                pyperclip.copy(run_lo.constants.TEMPLATE_FILE)
-                print(
-                    f"Template file found here:\n\n{run_lo.constants.TEMPLATE_FILE}\n\nCopied to the clipboard, by the way, for use in Word | Developer | Document Template\n\n")
-            except Exception as e:
-                print(f"An error occurred opening Word: {e}")
+                            pyperclip.copy(run_lo.constants.TEMPLATE_FILE)
+                            print(
+                                f"Template file found here:\n\n{run_lo.constants.TEMPLATE_FILE}\n\nCopied to the clipboard, by the way, for use in Word | Developer | Document Template\n\n")
+                        except Exception as e:
+                            print(f"An error occurred opening Word: {e}")
 
     run_lo.terminate_libreoffice()
     sys.exit(0)
