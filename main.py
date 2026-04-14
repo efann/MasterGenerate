@@ -35,6 +35,8 @@ if __name__ == '__main__':
     lcOpenDocExt = run_lo.constants.OPEN_DOC_EXT
     lcWordExt = run_lo.constants.WORD_EXT
 
+    lcTempMask = lcFolder + ".~lock.*"
+
     for lcFilename in os.listdir(lcFolder):
         if lcFilename.endswith(lcMasterExt) and os.path.isfile(os.path.join(lcFolder, lcFilename)):
             lcMaster = lcFilename
@@ -51,17 +53,18 @@ if __name__ == '__main__':
 
             if run_lo.convert_odm_to_odt(lcMasterFile, lcODTFile):
                 if run_lo.convert_odt_to_docx(lcODTFile, lcWordFile):
-                        try:
-                            print(f"Opening the document: {lcWordFile}")
-                            os.startfile(lcWordFile)
+                    try:
+                        print(f"Opening the document: {lcWordFile}")
+                        os.startfile(lcWordFile)
 
-                            pyperclip.copy(run_lo.constants.TEMPLATE_FILE)
-                            print(
-                                f"Template file found here:\n\n{run_lo.constants.TEMPLATE_FILE}\n\nCopied to the clipboard, by the way, for use in Word | Developer | Document Template\n\n")
-                        except Exception as e:
-                            print(f"An error occurred opening Word: {e}")
+                        pyperclip.copy(run_lo.constants.TEMPLATE_FILE)
+                        print(
+                            f"Template file found here:\n\n{run_lo.constants.TEMPLATE_FILE}\n\nCopied to the clipboard, by the way, for use in Word | Developer | Document Template\n\n")
+                    except Exception as e:
+                        print(f"An error occurred opening Word: {e}")
 
     run_lo.terminate_libreoffice()
+    run_lo.clean_temp_files(lcTempMask)
     sys.exit(0)
 
 # -------------------------------------------------------------------------------------------------

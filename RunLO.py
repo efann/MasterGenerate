@@ -1,3 +1,4 @@
+import glob
 import os
 import signal
 from pathlib import Path
@@ -86,6 +87,19 @@ class RunLO:
         except Exception as e:
             print(f"An error occurred while loading LibreOffice: {e}")
             self.terminate_libreoffice()
+
+    # -------------------------------------------------------------------------------------------------
+    def clean_temp_files(self, temp_mask):
+
+        temp_list = glob.glob(temp_mask)
+
+        self.constants.print_line_marker()
+
+        for temp_file in temp_list:
+            print(f"Removing {temp_file}")
+            os.remove(temp_file)
+
+        self.constants.print_line_marker()
 
     # -------------------------------------------------------------------------------------------------
 
