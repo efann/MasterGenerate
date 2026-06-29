@@ -1,12 +1,14 @@
 import glob
 import os
 import signal
+import traceback
 from pathlib import Path
 
 import psutil
 import uno
+from com.sun.star.text import XDocumentIndexesSupplier
 from com.sun.star.util import XLinkUpdate
-from ooodev.loader.lo import Lo
+from ooodev.utils.lo import Lo
 
 from Constants import Constants
 
@@ -121,7 +123,7 @@ class RunLO:
 
             print(f"Document '{input_file}' opened successfully.")
 
-            if self.update_links(doc):
+            if self.update_links(doc) and self.update_table_of_contents(doc):
                 Lo.save(doc)
                 print(f"Document '{input_file}' saved successfully.")
 
@@ -154,7 +156,7 @@ class RunLO:
 
             print(f"Document '{input_file}' opened successfully.")
 
-            if self.update_links(doc):
+            if self.update_links(doc) and self.update_table_of_contents(doc):
                 print(f"Document '{input_file}' updated successfully.")
                 Lo.save(doc)
                 print(f"Document '{input_file}' saved successfully.")
@@ -185,6 +187,37 @@ class RunLO:
                 return False
         else:
             print("Document does not support XLinkUpdate interface or links are not present.")
+
+        return True
+
+    # -------------------------------------------------------------------------------------------------
+
+    def update_table_of_contents(self, doc):
+
+        # 1. Cast the document component to XDocumentIndexesSupplier using Lo.qi
+        index_supplier = Lo.qi(XDocumentIndexesSupplier, doc)
+
+        if index_supplier:
+            try:
+                print("Updating Table of Contents.")
+
+                # 2. Retrieve all indexes in the document
+                indexes = index_supplier.getDocumentIndexes()
+
+                # 3. Loop through indexes and update the Table of Contents
+                for i in range(indexes.getCount()):
+                    current_index = indexes.getByIndex(i)
+                    current_index.update()
+
+                print("Table of Contents updated successfully.")
+
+            except Exception as e:
+                print(f"Error updating Table of Contents: {e}")
+                traceback.print_exc()
+                return False
+
+        else:
+            print("Document does not support XDocumentIndexesSupplier interface or indexes are not present.")
 
         return True
 
