@@ -184,6 +184,7 @@ class RunLO:
                 print("Document links updated successfully.")
             except Exception as e:
                 print(f"Error updating links: {e}")
+                traceback.print_exc()
                 return False
         else:
             print("Document does not support XLinkUpdate interface or links are not present.")
