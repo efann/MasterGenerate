@@ -43,13 +43,13 @@ class Constants:
             if self.TARGET_FOLDER in dirs:
                 found_folders.append(os.path.join(os.path.join(root, self.TARGET_FOLDER), ''))
 
+        print(f"OneDrive Folder: {self.ONEDRIVE}")
+        print(f"Target Folder: {self.TARGET_FOLDER}\n")
+
         if found_folders and len(found_folders) == 1:
             self.MASTER_FOLDER = found_folders[0]
-
-            print(f"OneDrive Folder: {self.ONEDRIVE}")
-            print(f"Writer Folder: {self.MASTER_FOLDER}")
         else:
-            print("There must be only one Target Folder under OneDrive")
+            print("There must be only one unique writer Folder under OneDrive")
             print(self.ONEDRIVE)
             print("Folder(s) found, if any")
             print(found_folders)
