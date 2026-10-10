@@ -10,6 +10,15 @@ Instead, I use LibreOffice to generate the master document.
 
 The below instructions exist for manually generating the master Word document. 
 
+### Using LibreOffice's Python
+Installing Third-Party Packages (e.g., pandas, numpy): Because LibreOffice's internal Python doesn't come with pip pre-installed, installing packages directly through PyCharm's UI might fail.
+- As users agree on Stack Overflow and GitHub, you can manually install pip to LibreOffice's directory.
+- Open your terminal/PowerShell as an Administrator, navigate to the LibreOffice program folder, and download/run get-pip.py using LibreOffice's python.exe
+```
+cd "C:\Program Files\LibreOffice\program"
+(Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -UseBasicParsing).Content | .\python.exe -
+```
+
 ### Auto Update
 
 I set LibreOffice to automatically update all links when the document is open by doing the following steps:
