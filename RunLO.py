@@ -8,7 +8,7 @@ import psutil
 import uno
 from com.sun.star.text import XDocumentIndexesSupplier
 from com.sun.star.util import XLinkUpdate
-from ooodev.utils.lo import Lo
+from ooodev.loader.lo import Lo
 
 from Constants import Constants
 
